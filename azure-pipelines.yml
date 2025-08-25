@@ -1,0 +1,32 @@
+trigger: none
+
+pool: default
+
+stages:
+  - stage: 
+    jobs:
+      - job: terraform installer
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: 'latest'
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'sc2'
+    backendAzureRmOverrideSubscriptionID: '5fbead97-423e-4814-809c-114db991d911'
+    backendAzureRmResourceGroupName: 'Akhil-rg1'
+    backendAzureRmStorageAccountName: 'akhilst12'
+    backendAzureRmContainerName: 'cont1'
+    backendAzureRmKey: 'tfstate.tf'
+- task: ManualValidation@1
+  inputs:
+    notifyUsers: 'deeksha.upmanyu0001@gmail.com'
+    onTimeout: 'resume'
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    environmentServiceNameAzureRM: 'sc2'
+    environmentAzureRmOverrideSubscriptionID: '5fbead97-423e-4814-809c-114db991d911'
+
